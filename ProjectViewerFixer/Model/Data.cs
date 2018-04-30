@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 
 namespace ProjectViewerFixer.Model
 {
-    class Data
+    public class Data
     {
-        public string hash { get; set; }
-        public int shelf_number { get; set; }
-        public Shelf[] shelfs { get; set; }
-        public Object[] objects { get; set; }
+        [JsonProperty("hash")]
+        public string Hash { get; set; }
+
+        [JsonProperty("shelf_number")]
+        public int ShelfNumber { get; set; }
+
+        [JsonProperty("shelfs")]
+        public Shelf[] Shelfs { get; set; }
+
+        [JsonProperty("objects")]
+        public Object[] Objects { get; set; }
     }
 }

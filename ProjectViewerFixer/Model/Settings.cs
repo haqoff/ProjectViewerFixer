@@ -1,6 +1,6 @@
 ﻿namespace ProjectViewerFixer.Model
 {
-    class Settings
+    public class Settings
     {
         public string ProjectName { get; set; }
         public string CategoryDb { get; set; }

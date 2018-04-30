@@ -1,9 +1,16 @@
-﻿namespace ProjectViewerFixer.Model
+﻿using Newtonsoft.Json;
+
+namespace ProjectViewerFixer.Model
 {
     public class Shelf
     {
-        public int id_counter { get; set; }
-        public string bbox { get; set; }
-        public Object[] objects { get; set; }
+        [JsonProperty("id_counter")]
+        public int IdCounter { get; set; }
+
+        [JsonProperty("bbox")]
+        public string Bbox { get; set; }
+
+        [JsonProperty("objects")]
+        public Object[] Objects { get; set; }
     }
 }
