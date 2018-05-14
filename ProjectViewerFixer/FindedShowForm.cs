@@ -1,4 +1,5 @@
-﻿using ProjectViewerFixer.Model;
+﻿using ProjectViewerFixer.Exceptions;
+using ProjectViewerFixer.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,9 +37,8 @@ namespace ProjectViewerFixer
 
             dgvContent.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-
-            int countExceptions = 0;
             int counter = 0;
+            var exceptions = new List<IdNotFoundException>();
             foreach (var item in findedObjects)
             {
                 var obj = item.obj;
@@ -51,16 +51,14 @@ namespace ProjectViewerFixer
                 }
                 catch (KeyNotFoundException)
                 {
-                    if (countExceptions == 5) MessageBox.Show("Найдено уже 5 ошибок, дальнейшие ошибки показываться не будут!");
-                    else if (countExceptions < 5)
-                    {
-                        MessageBox.Show(string.Format("Не был найден один из ID category/size/package/brand в сопосталвенном словаре.\nИмя файла: {0}\nObjectIdCounter: {1}",
-                            Path.GetFileName(item.dataFilePath), obj.IdCounter));
-                    }
-                    countExceptions++;
-
+                    exceptions.Add(new IdNotFoundException(Path.GetFileName(item.dataFilePath), obj.IdCounter));
                 }
-
+            }
+            if (exceptions.Count > 0)
+            {
+                var errorsForm = new ErrorFormShow(exceptions);
+                errorsForm.ShowDialog();
+                errorsForm.Dispose();
             }
         }
     }

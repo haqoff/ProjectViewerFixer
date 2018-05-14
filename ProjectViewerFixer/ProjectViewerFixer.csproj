@@ -48,6 +48,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorFormShow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ErrorFormShow.Designer.cs">
+      <DependentUpon>ErrorFormShow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Exceptions\IdNotFoundException.cs" />
     <Compile Include="FindedShowForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,6 +74,9 @@
     <Compile Include="Model\Shelf.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ErrorFormShow.resx">
+      <DependentUpon>ErrorFormShow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FindedShowForm.resx">
       <DependentUpon>FindedShowForm.cs</DependentUpon>
     </EmbeddedResource>
