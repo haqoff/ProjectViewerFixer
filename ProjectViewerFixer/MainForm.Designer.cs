@@ -88,7 +88,7 @@
             // miOpen
             // 
             this.miOpen.Name = "miOpen";
-            this.miOpen.Size = new System.Drawing.Size(180, 22);
+            this.miOpen.Size = new System.Drawing.Size(121, 22);
             this.miOpen.Text = "Открыть";
             this.miOpen.Click += new System.EventHandler(this.miOpen_Click);
             // 
@@ -96,7 +96,7 @@
             // 
             this.miClose.Enabled = false;
             this.miClose.Name = "miClose";
-            this.miClose.Size = new System.Drawing.Size(180, 22);
+            this.miClose.Size = new System.Drawing.Size(121, 22);
             this.miClose.Text = "Закрыть";
             this.miClose.Click += new System.EventHandler(this.miClose_Click);
             // 
@@ -164,12 +164,13 @@
             // 
             // cbReplacePackage
             // 
-            this.cbReplacePackage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbReplacePackage.FormattingEnabled = true;
             this.cbReplacePackage.Location = new System.Drawing.Point(62, 76);
             this.cbReplacePackage.Name = "cbReplacePackage";
             this.cbReplacePackage.Size = new System.Drawing.Size(386, 21);
+            this.cbReplacePackage.Sorted = true;
             this.cbReplacePackage.TabIndex = 5;
+            this.cbReplacePackage.Leave += new System.EventHandler(this.OnComboboxLeave);
             // 
             // tbReplacePrice
             // 
@@ -198,21 +199,23 @@
             // 
             // cbReplaceBrand
             // 
-            this.cbReplaceBrand.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbReplaceBrand.FormattingEnabled = true;
             this.cbReplaceBrand.Location = new System.Drawing.Point(62, 103);
             this.cbReplaceBrand.Name = "cbReplaceBrand";
             this.cbReplaceBrand.Size = new System.Drawing.Size(386, 21);
+            this.cbReplaceBrand.Sorted = true;
             this.cbReplaceBrand.TabIndex = 7;
+            this.cbReplaceBrand.Leave += new System.EventHandler(this.OnComboboxLeave);
             // 
             // cbReplaceSize
             // 
-            this.cbReplaceSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbReplaceSize.FormattingEnabled = true;
             this.cbReplaceSize.Location = new System.Drawing.Point(62, 49);
             this.cbReplaceSize.Name = "cbReplaceSize";
             this.cbReplaceSize.Size = new System.Drawing.Size(386, 21);
+            this.cbReplaceSize.Sorted = true;
             this.cbReplaceSize.TabIndex = 3;
+            this.cbReplaceSize.Leave += new System.EventHandler(this.OnComboboxLeave);
             // 
             // lblReplacePackage
             // 
@@ -225,12 +228,13 @@
             // 
             // cbReplaceCategory
             // 
-            this.cbReplaceCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbReplaceCategory.FormattingEnabled = true;
             this.cbReplaceCategory.Location = new System.Drawing.Point(62, 21);
             this.cbReplaceCategory.Name = "cbReplaceCategory";
             this.cbReplaceCategory.Size = new System.Drawing.Size(386, 21);
+            this.cbReplaceCategory.Sorted = true;
             this.cbReplaceCategory.TabIndex = 1;
+            this.cbReplaceCategory.Leave += new System.EventHandler(this.OnComboboxLeave);
             // 
             // lblReplaceSize
             // 
@@ -278,12 +282,13 @@
             // 
             // cbFindPackage
             // 
-            this.cbFindPackage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFindPackage.FormattingEnabled = true;
             this.cbFindPackage.Location = new System.Drawing.Point(62, 76);
             this.cbFindPackage.Name = "cbFindPackage";
             this.cbFindPackage.Size = new System.Drawing.Size(386, 21);
+            this.cbFindPackage.Sorted = true;
             this.cbFindPackage.TabIndex = 5;
+            this.cbFindPackage.Leave += new System.EventHandler(this.OnComboboxLeave);
             // 
             // lblFindBrand
             // 
@@ -305,21 +310,23 @@
             // 
             // cbFindBrand
             // 
-            this.cbFindBrand.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFindBrand.FormattingEnabled = true;
             this.cbFindBrand.Location = new System.Drawing.Point(62, 103);
             this.cbFindBrand.Name = "cbFindBrand";
             this.cbFindBrand.Size = new System.Drawing.Size(386, 21);
+            this.cbFindBrand.Sorted = true;
             this.cbFindBrand.TabIndex = 7;
+            this.cbFindBrand.Leave += new System.EventHandler(this.OnComboboxLeave);
             // 
             // cbFindSize
             // 
-            this.cbFindSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFindSize.FormattingEnabled = true;
             this.cbFindSize.Location = new System.Drawing.Point(62, 49);
             this.cbFindSize.Name = "cbFindSize";
             this.cbFindSize.Size = new System.Drawing.Size(386, 21);
+            this.cbFindSize.Sorted = true;
             this.cbFindSize.TabIndex = 3;
+            this.cbFindSize.Leave += new System.EventHandler(this.OnComboboxLeave);
             // 
             // lblFindPackage
             // 
@@ -332,12 +339,13 @@
             // 
             // cbFindCategory
             // 
-            this.cbFindCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFindCategory.FormattingEnabled = true;
             this.cbFindCategory.Location = new System.Drawing.Point(62, 21);
             this.cbFindCategory.Name = "cbFindCategory";
             this.cbFindCategory.Size = new System.Drawing.Size(386, 21);
+            this.cbFindCategory.Sorted = true;
             this.cbFindCategory.TabIndex = 1;
+            this.cbFindCategory.Leave += new System.EventHandler(this.OnComboboxLeave);
             // 
             // lblFindSize
             // 

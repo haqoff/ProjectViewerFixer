@@ -2,6 +2,7 @@
 using ProjectViewerFixer.Model;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
@@ -37,22 +38,58 @@ namespace ProjectViewerFixer
 
             dgvContent.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            int counter = 0;
             var exceptions = new List<IdNotFoundException>();
             foreach (var item in findedObjects)
             {
                 var obj = item.obj;
+
+                string categoryName = null;
+                string sizeName = null;
+                string packageName = null;
+                string brandName = null;
+
                 try
                 {
-                    dgvContent.Rows.Add(Path.GetFileName(item.dataFilePath), item.obj.IdCounter, dbCategory[obj.CategoryId].Name,
-                        dbSize[obj.SizeId].Name, dbPackage[obj.PackageId].Name, dbBrand[obj.BrandId].Name, obj.PriceValue);
-                    dgvContent.Rows[counter].HeaderCell.Value = (counter + 1).ToString();
-                    counter++;
+                    categoryName = dbCategory[obj.CategoryId].Name;
+                }
+                catch(KeyNotFoundException)
+                {
+                    exceptions.Add(new IdNotFoundException(obj.CategoryId, Path.GetFileName(item.dataFilePath), obj.IdCounter, IdNotFoundException.IdType.Category));
+                    continue;
+                }
+
+                try
+                {
+                    sizeName = dbSize[obj.SizeId].Name;
                 }
                 catch (KeyNotFoundException)
                 {
-                    exceptions.Add(new IdNotFoundException(Path.GetFileName(item.dataFilePath), obj.IdCounter));
+                    exceptions.Add(new IdNotFoundException(obj.SizeId, Path.GetFileName(item.dataFilePath), obj.IdCounter, IdNotFoundException.IdType.Size));
+                    continue;
                 }
+
+                try
+                {
+                    packageName = dbPackage[obj.PackageId].Name;
+                }
+                catch (KeyNotFoundException)
+                {
+                    exceptions.Add(new IdNotFoundException(obj.PackageId, Path.GetFileName(item.dataFilePath), obj.IdCounter, IdNotFoundException.IdType.Package));
+                    continue;
+                }
+
+                try
+                {
+                    brandName = dbBrand[obj.BrandId].Name;
+                }
+                catch (KeyNotFoundException)
+                {
+                    exceptions.Add(new IdNotFoundException(obj.BrandId, Path.GetFileName(item.dataFilePath), obj.IdCounter, IdNotFoundException.IdType.Brand));
+                    continue;
+                }
+
+
+                dgvContent.Rows.Add(Path.GetFileName(item.dataFilePath), obj.IdCounter, categoryName, sizeName, packageName, brandName, obj.PriceValue);
             }
             if (exceptions.Count > 0)
             {
@@ -60,6 +97,15 @@ namespace ProjectViewerFixer
                 errorsForm.ShowDialog();
                 errorsForm.Dispose();
             }
+        }
+
+        private void FindedShowForm_Resize(object sender, EventArgs e)
+        {
+            dgvContent.Size = new Size()
+            {
+                Width = Size.Width - 40,
+                Height = Size.Height - 62
+            };
         }
     }
 }

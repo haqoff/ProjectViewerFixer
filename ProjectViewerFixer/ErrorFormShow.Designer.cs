@@ -56,7 +56,7 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(284, 254);
+            this.btnOk.Location = new System.Drawing.Point(328, 254);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 2;
@@ -72,14 +72,15 @@
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.cbShowOnlyFiles);
             this.Controls.Add(this.dgvErrors);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(657, 325);
             this.Name = "ErrorFormShow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Найдены ошибки:";
             this.Load += new System.EventHandler(this.ErrorFormShow_Load);
+            this.Resize += new System.EventHandler(this.ErrorFormShow_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.dgvErrors)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

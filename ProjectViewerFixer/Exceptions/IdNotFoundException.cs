@@ -6,7 +6,9 @@ namespace ProjectViewerFixer.Exceptions
     {
 
         private string _fileName;
-
+        private string id;
+        private IdType type;
+              
         public string FileName {
             get
             {
@@ -19,18 +21,22 @@ namespace ProjectViewerFixer.Exceptions
         }
         public int IdCounter { get; private set; }
 
-        public override string Message
-        {
-            get
-            {
-                return string.Format("Не был найден один из ID category/size/package/brand в сопоставленном словаре.\nИмя файла: {0}\nObjectIdCounter: {1}", FileName, IdCounter);
-            }
-        }
-
-        public IdNotFoundException(string dataFileName, int idCounter)
+        public IdNotFoundException(string id, string dataFileName, int idCounter, IdType type)
         {
             FileName = dataFileName;
             IdCounter = idCounter;
+            this.id = id;
+            this.type = type;
+        }
+
+        public override string Message => string.Format("Не найден {0}Id: {1} в сопоставленном словаре {0}.", type.ToString(), id);
+
+        public enum IdType
+        {
+            Category,
+            Size,
+            Brand,
+            Package
         }
     }
 }

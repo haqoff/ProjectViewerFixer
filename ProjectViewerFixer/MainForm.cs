@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using ProjectViewerFixer.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
@@ -10,9 +11,12 @@ namespace ProjectViewerFixer
     {
         private bool projectOpened;
 
-        private const string dataFolderName = "data";
-        private const string dbFolderName = "db";
-        private const string settingsFileName = "settings.json";
+        private const string DOESNT_MATTER = "Не важно";
+        private const string LEAVE_PREVIOUS = "Оставить прежнее";
+
+        private const string DATA_FOLDER_NAME = "data";
+        private const string DB_FOLDER_NAME = "db";
+        private const string SETTINGS_FILE_NAME = "settings.json";
 
         private Dictionary<Data, string> datas;
         private Dictionary<string, DBDictionary> dbCategory;
@@ -46,17 +50,17 @@ namespace ProjectViewerFixer
 
                 if (projectOpened) CloseProject();
 
-                datas = DeserializeJsonFilesInFolder<Data>(folderBrowser.SelectedPath + @"\" + dataFolderName);
+                datas = DeserializeJsonFilesInFolder<Data>(folderBrowser.SelectedPath + @"\" + DATA_FOLDER_NAME);
 
-                var settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(folderBrowser.SelectedPath + @"\" + settingsFileName));
+                var settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(folderBrowser.SelectedPath + @"\" + SETTINGS_FILE_NAME));
 
                 lblProjectName.Text = "Имя проекта: " + settings.ProjectName;
                 lblCountData.Text = "Количество файлов данных: " + datas.Count;
 
-                dbBrand = JsonConvert.DeserializeObject<Dictionary<string, DBDictionary>>(File.ReadAllText(folderBrowser.SelectedPath + @"\" + dbFolderName + @"\" + settings.BrandDb));
-                dbCategory = JsonConvert.DeserializeObject<Dictionary<string, DBDictionary>>(File.ReadAllText(folderBrowser.SelectedPath + @"\" + dbFolderName + @"\" + settings.CategoryDb));
-                dbPackage = JsonConvert.DeserializeObject<Dictionary<string, DBDictionary>>(File.ReadAllText(folderBrowser.SelectedPath + @"\" + dbFolderName + @"\" + settings.PackageDb));
-                dbSize = JsonConvert.DeserializeObject<Dictionary<string, DBDictionary>>(File.ReadAllText(folderBrowser.SelectedPath + @"\" + dbFolderName + @"\" + settings.SizeDb));
+                dbBrand = JsonConvert.DeserializeObject<Dictionary<string, DBDictionary>>(File.ReadAllText(folderBrowser.SelectedPath + @"\" + DB_FOLDER_NAME + @"\" + settings.BrandDb));
+                dbCategory = JsonConvert.DeserializeObject<Dictionary<string, DBDictionary>>(File.ReadAllText(folderBrowser.SelectedPath + @"\" + DB_FOLDER_NAME + @"\" + settings.CategoryDb));
+                dbPackage = JsonConvert.DeserializeObject<Dictionary<string, DBDictionary>>(File.ReadAllText(folderBrowser.SelectedPath + @"\" + DB_FOLDER_NAME + @"\" + settings.PackageDb));
+                dbSize = JsonConvert.DeserializeObject<Dictionary<string, DBDictionary>>(File.ReadAllText(folderBrowser.SelectedPath + @"\" + DB_FOLDER_NAME + @"\" + settings.SizeDb));
 
                 LoadDbToCombobox(cbFindCategory, cbReplaceCategory, dbCategory);
                 LoadDbToCombobox(cbFindSize, cbReplaceSize, dbSize);
@@ -99,15 +103,22 @@ namespace ProjectViewerFixer
             cbFind.Items.Clear();
             cbReplace.Items.Clear();
 
-            cbFind.Items.Add("Не важно");
-            cbReplace.Items.Add("Оставить прежнее");
+            cbFind.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cbFind.AutoCompleteSource = AutoCompleteSource.ListItems;
+
+            cbReplace.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cbReplace.AutoCompleteSource = AutoCompleteSource.ListItems;
+
+
+            cbFind.Items.Add(DOESNT_MATTER);
+            cbReplace.Items.Add(LEAVE_PREVIOUS);
             foreach (var item in dict.Values)
             {
                 cbFind.Items.Add(item);
                 cbReplace.Items.Add(item);
             }
-            cbFind.SelectedIndex = 0;
-            cbReplace.SelectedIndex = 0;
+            cbFind.SelectedItem = DOESNT_MATTER;
+            cbReplace.SelectedItem = LEAVE_PREVIOUS;
         }
 
         /// <summary>
@@ -136,11 +147,31 @@ namespace ProjectViewerFixer
         /// <returns>Возвращает true, если является, иначе false.</returns>
         private bool IsViewerProject(string path)
         {
-            if (!Directory.Exists(path + @"\" + dataFolderName)) return false;
-            if (!Directory.Exists(path + @"\" + dbFolderName)) return false;
-            if (!File.Exists(path + @"\" + settingsFileName)) return false;
+            if (!Directory.Exists(path + @"\" + DATA_FOLDER_NAME)) return false;
+            if (!Directory.Exists(path + @"\" + DB_FOLDER_NAME)) return false;
+            if (!File.Exists(path + @"\" + SETTINGS_FILE_NAME)) return false;
 
             return true;
+        }
+
+        private void OnComboboxLeave(object sender, EventArgs args)
+        {
+            var s = sender as ComboBox;
+
+            if (s.FindString(s.Text) == -1)
+            {
+                MessageBox.Show(string.Format("Элемента '{0}' в словаре {1} нет.\n", s.Text
+                    ,s.Name.Replace("cbFind", "").Replace("cbReplace", ""), "Предупреждение."
+                    ,MessageBoxButtons.OK, MessageBoxIcon.Warning));
+                if (s.Items.Contains(DOESNT_MATTER))
+                {
+                    s.SelectedItem = DOESNT_MATTER;
+                }
+                else
+                {
+                    s.SelectedItem = LEAVE_PREVIOUS;
+                }
+            }
         }
 
         private void btnFindAndReplace_Click(object sender, System.EventArgs e)
